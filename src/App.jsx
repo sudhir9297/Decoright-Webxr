@@ -5,6 +5,8 @@ import HomePage from "./pages/HomePage";
 import ProductPage from "./pages/ProductPage";
 import { useEffect, useState } from "react";
 
+import { ARProvider } from "./store/ARContext";
+
 function App() {
   const [isDesktop, setIsDesktop] = useState(false);
 
@@ -20,7 +22,7 @@ function App() {
   }, []);
 
   return (
-    <>
+    <ARProvider>
       {isDesktop ? (
         <div className="bg-blue-100 p-4 text-blue-700">
           This App was built only for Tablet and Phone as it uses Camera for
@@ -32,7 +34,7 @@ function App() {
           <Route path="/product" element={<ProductPage />} />
         </Routes>
       )}
-    </>
+    </ARProvider>
   );
 }
 

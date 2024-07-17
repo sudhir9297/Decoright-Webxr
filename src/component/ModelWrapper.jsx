@@ -1,15 +1,30 @@
-import React, { useRef, useState } from "react";
-import { Environment, OrbitControls, Bounds, Center } from "@react-three/drei";
+import React, { useRef, useState, useEffect } from "react";
+import { Bounds, Center } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
 import { Interactive, useHitTest, useXR } from "@react-three/xr";
-import { Vector3 } from "three";
 import Model from "../component/Model";
+import { useAR } from "../store/ARContext";
 
 function ModelWrapper({ currentVariation, currentProduct }) {
   const [modelsPosition, setModelsPosition] = useState(null);
+  const { startARSession, endARSession } = useAR();
+
   const { isPresenting } = useXR();
+
+  useEffect(() => {
+    // Assume you have logic to start the AR session
+
+    if (isPresenting) {
+      startARSession();
+    }
+
+    return () => {
+      // Logic to clean up the AR session
+      endARSession();
+    };
+  }, [isPresenting]);
+
   const placeModel = (e) => {
-    console.log(e);
     let position = e.intersection.object.position.clone();
     setModelsPosition(position);
   };
@@ -36,7 +51,7 @@ function ModelWrapper({ currentVariation, currentProduct }) {
     return (
       <>
         <mesh ref={reticleRef} rotation-x={-Math.PI / 2}>
-          <ringGeometry args={[0.1, 0.25, 32]} />
+          <ringGeometry args={[0.2, 0.25, 15]} />
           <meshStandardMaterial color={"white"} />
         </mesh>
       </>

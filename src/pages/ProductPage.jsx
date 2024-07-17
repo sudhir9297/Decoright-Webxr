@@ -1,4 +1,11 @@
-import React, { Suspense, useEffect, useState, useCallback } from "react";
+import React, {
+  Suspense,
+  useEffect,
+  createContext,
+  useState,
+  useContext,
+  useCallback,
+} from "react";
 import { useLocation } from "react-router-dom";
 import Content from "../component/Content";
 import Loader from "../component/Loading";
@@ -12,6 +19,7 @@ import ModelWrapper from "../component/ModelWrapper";
 import { ProductList } from "../constant/productData";
 import { getProductRecursively } from "../constant/utils";
 import OverlayVariation from "../component/OverlayVariation";
+import { useAR } from "../store/ARContext";
 
 function ProductPage() {
   const location = useLocation();
@@ -70,20 +78,20 @@ function ProductPage() {
               <ModelWrapper
                 currentVariation={currentVariation}
                 currentProduct={currentProduct}
+                handleTexture={handleTexture}
               />
             </Suspense>
           </XR>
         </Canvas>
       </div>
 
-      {
-        <OverlayVariation
-          ref={interfaceRef}
-          currentProduct={currentProduct}
-          currentVariation={currentVariation}
-          handleTexture={handleTexture}
-        />
-      }
+      <OverlayVariation
+        ref={interfaceRef}
+        currentProduct={currentProduct}
+        currentVariation={currentVariation}
+        handleTexture={handleTexture}
+      />
+
       <Content
         currentProduct={currentProduct}
         currentVariation={currentVariation}
