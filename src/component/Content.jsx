@@ -2,7 +2,7 @@ import React from "react";
 
 function Content({ currentProduct, currentVariation, handleTexture }) {
   return (
-    <div className="h-1/2 overflow-hidden border-t bg-white">
+    <div className="h-1/2 overflow-hidden bg-white">
       <div className="p-6">
         <div>
           <div className="color-[#161616] mb-2.5 text-2xl font-bold">

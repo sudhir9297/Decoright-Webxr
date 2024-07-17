@@ -32,13 +32,10 @@ const Model = (props) => {
     return () => {};
   }, [props.currentVariation]);
 
-  return (
-    <Bounds fit clip observe margin={1.2}>
-      <Center>
-        <primitive object={gltf.scene} />
-      </Center>
-    </Bounds>
-  );
+  if (!props.position && props.isPresenting) {
+    return <></>;
+  }
+  return <primitive position={props.position} object={gltf.scene} />;
 };
 
 export default Model;

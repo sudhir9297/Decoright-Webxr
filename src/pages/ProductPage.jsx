@@ -1,14 +1,17 @@
-import React, { Suspense, useState, useEffect } from "react";
+import React, { Suspense, useEffect, useState, useCallback } from "react";
 import { useLocation } from "react-router-dom";
 import Content from "../component/Content";
 import Loader from "../component/Loading";
-import Model from "../component/Model";
-import Trigger from "../component/Trigger";
-import { Canvas } from "@react-three/fiber";
-import { Environment, OrbitControls } from "@react-three/drei";
 
-import { getProductRecursively } from "../constant/utils";
+import { Environment, OrbitControls } from "@react-three/drei";
+import { Canvas } from "@react-three/fiber";
+import Trigger from "../component/Trigger";
+
+import { ARButton, XR } from "@react-three/xr";
+import ModelWrapper from "../component/ModelWrapper";
 import { ProductList } from "../constant/productData";
+import { getProductRecursively } from "../constant/utils";
+import OverlayVariation from "../component/OverlayVariation";
 
 function ProductPage() {
   const location = useLocation();
@@ -19,9 +22,16 @@ function ProductPage() {
   const [currentProduct, setCurrentProduct] = useState(null);
   const [currentVariation, setActiveVariation] = useState(null);
 
+  const [overlayContent, setOverlayContent] = useState(null);
+
+  let interfaceRef = useCallback((node) => {
+    if (node !== null) {
+      setOverlayContent(node);
+    }
+  });
+
   useEffect(() => {
     const product = getProductRecursively(ProductList, productName);
-
     setCurrentProduct(product);
     setActiveVariation(product.variation[0]);
     return () => {};
@@ -36,28 +46,44 @@ function ProductPage() {
   }
 
   return (
-    <div className="h-screen">
-      <div className="h-1/2">
+    <div className="relative h-screen">
+      <div className="relative h-1/2">
         {loading && <Loader />}
-
-        <Canvas camera={{ position: [-5, 2, 5], fov: 26 }}>
-          <OrbitControls />
-          <Environment preset="warehouse" />
-
-          {/* <directionalLight position={[1, 0, 0]} args={["white", 2]} />
-          <directionalLight position={[-1, 0, 0]} args={["white", 2]} />
-          <directionalLight position={[0, 0, 1]} args={["white", 2]} />
-          <directionalLight position={[0, 0, -1]} args={["white", 2]} />
-          <directionalLight position={[0, 1, 0]} args={["white", 10]} />
-          <directionalLight position={[0, -1, 0]} args={["white", 2]} /> */}
-          <Suspense fallback={<Trigger setLoading={setLoading} />}>
-            <Model
-              currentVariation={currentVariation}
-              currentProduct={currentProduct}
-            />
-          </Suspense>
+        <ARButton
+          className="absolute bottom-2 right-2 z-40 w-fit rounded-md border bg-white px-4 py-2 text-black shadow"
+          style={{
+            cursor: "pointer",
+          }}
+          sessionInit={{
+            requiredFeatures: ["hit-test"],
+            optionalFeatures: ["dom-overlay"],
+            domOverlay: { root: overlayContent },
+          }}
+        >
+          AR
+        </ARButton>
+        <Canvas camera={{ position: [-5, 3, 5], fov: 26 }}>
+          <XR>
+            <OrbitControls />
+            <Environment preset="warehouse" />
+            <Suspense fallback={<Trigger setLoading={setLoading} />}>
+              <ModelWrapper
+                currentVariation={currentVariation}
+                currentProduct={currentProduct}
+              />
+            </Suspense>
+          </XR>
         </Canvas>
       </div>
+
+      {
+        <OverlayVariation
+          ref={interfaceRef}
+          currentProduct={currentProduct}
+          currentVariation={currentVariation}
+          handleTexture={handleTexture}
+        />
+      }
       <Content
         currentProduct={currentProduct}
         currentVariation={currentVariation}

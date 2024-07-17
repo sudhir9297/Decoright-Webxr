@@ -643,6 +643,15 @@
     suspend-react "^0.1.3"
     zustand "^3.7.1"
 
+"@react-three/xr@^5.2.0":
+  version "5.7.1"
+  resolved "https://registry.yarnpkg.com/@react-three/xr/-/xr-5.7.1.tgz#ebba10f08047691f1ee18aa4bfbc1106cfebf811"
+  integrity sha512-GaRUSA+lE8VJF/NrXq7QQByZ4UGHbQQ4rs3QCphZs9fVidK86hGrMOQ0kL79gZc5pa3V5uFGlOhNcUdsTYE3Bg==
+  dependencies:
+    "@types/webxr" "*"
+    three-stdlib "^2.21.1"
+    zustand "^3.7.1"
+
 "@remix-run/router@1.18.0":
   version "1.18.0"
   resolved "https://registry.npmjs.org/@remix-run/router/-/router-1.18.0.tgz"
@@ -3334,7 +3343,7 @@ three-mesh-bvh@^0.7.0:
   resolved "https://registry.yarnpkg.com/three-mesh-bvh/-/three-mesh-bvh-0.7.6.tgz#6764b39475bdba9450ad3a4065492678ee537272"
   integrity sha512-rCjsnxEqR9r1/C/lCqzGLS67NDty/S/eT6rAJfDvsanrIctTWdNoR4ZOGWewCB13h1QkVo2BpmC0wakj1+0m8A==
 
-three-stdlib@^2.29.9:
+three-stdlib@^2.21.1, three-stdlib@^2.29.9:
   version "2.30.4"
   resolved "https://registry.yarnpkg.com/three-stdlib/-/three-stdlib-2.30.4.tgz#5c6b7b2cb4c046e81a3017c4421eed9ed8c54767"
   integrity sha512-E7sN8UkaorSq2uRZU14AE7wXkdCBa2oFwPkPt92zaecuzrgd98BXkTt+2tFQVF1tPJRvfs7aMZV5dSOq4/vNVg==
