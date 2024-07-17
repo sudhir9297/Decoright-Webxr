@@ -8,18 +8,13 @@ import { useAR } from "../store/ARContext";
 function ModelWrapper({ currentVariation, currentProduct }) {
   const [modelsPosition, setModelsPosition] = useState(null);
   const { startARSession, endARSession } = useAR();
-
   const { isPresenting } = useXR();
 
   useEffect(() => {
-    // Assume you have logic to start the AR session
-
     if (isPresenting) {
       startARSession();
     }
-
     return () => {
-      // Logic to clean up the AR session
       endARSession();
     };
   }, [isPresenting]);

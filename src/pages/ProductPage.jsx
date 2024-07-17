@@ -19,7 +19,6 @@ import ModelWrapper from "../component/ModelWrapper";
 import { ProductList } from "../constant/productData";
 import { getProductRecursively } from "../constant/utils";
 import OverlayVariation from "../component/OverlayVariation";
-import { useAR } from "../store/ARContext";
 
 function ProductPage() {
   const location = useLocation();
